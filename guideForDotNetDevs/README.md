@@ -14,6 +14,7 @@ equivalent (or the lack of one), and cites the source. Examples use the `Employe
 | [04 - Default parameters](04-default-parameters.md) | optional params, overloads | None; use options structs or functional options. |
 | [05 - Value vs. pointer](05-value-vs-pointer.md) | `class` vs `struct` | You choose per type via receiver and return type. |
 | [06 - Encapsulation](06-encapsulation-and-private-set.md) | `private set`, `init`, `readonly` | Unexported field + exported getter; privacy is per package. |
+| [07 - Implicit interfaces](07-implicit-interfaces.md) | `class Employee : IPerson` | No declaration; the compiler checks the method set where the value is used as the interface. |
 
 ## Conventions
 
