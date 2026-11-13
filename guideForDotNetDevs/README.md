@@ -15,6 +15,9 @@ equivalent (or the lack of one), and cites the source. Examples use the `Employe
 | [05 - Value vs. pointer](05-value-vs-pointer.md) | `class` vs `struct` | You choose per type via receiver and return type. |
 | [06 - Encapsulation](06-encapsulation-and-private-set.md) | `private set`, `init`, `readonly` | Unexported field + exported getter; privacy is per package. |
 | [07 - Implicit interfaces](07-implicit-interfaces.md) | `class Employee : IPerson` | No declaration; the compiler checks the method set where the value is used as the interface. |
+| [08 - Time formatting layouts](08-time-formatting.md) | `"yyyy-MM-dd"` token format | Fixed reference instant `Mon Jan 2 15:04:05 MST 2006`; layout is built from its literal substrings. |
+| [09 - Equality and `GetHashCode`](09-equality-and-hashcode.md) | `Equals`/`GetHashCode` overrides, `IEquatable<T>`, `record` | `==` is fixed/structural, not overridable; no hash override; custom equality is a plain `Equal` method by convention. |
+| [10 - Generics and type constraints](10-generics-and-type-constraints.md) | `where T : struct`, `where T : IComparable<T>` | Constraints are interfaces; can be a union of type terms (`int \| float32 \| float64`), constraint-only once non-basic. |
 
 ## Conventions
 
