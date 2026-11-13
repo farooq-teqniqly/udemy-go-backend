@@ -11,12 +11,12 @@ type Person interface {
 }
 
 type Employee struct {
-	ID uuid.UUID
+	ID        uuid.UUID
 	FirstName string
-	LastName string
-	Salary float64
-	IsActive bool
-	JoinedAt time.Time
+	LastName  string
+	Salary    float64
+	IsActive  bool
+	JoinedAt  time.Time
 }
 
 func (e *Employee) FullName() string {
@@ -27,25 +27,34 @@ func (e *Employee) Deactivate() {
 	e.IsActive = false
 }
 
+func (e *Employee) String() string {
+	return fmt.Sprintf("%s (ID: %s, Salary: %.2f, Active: %t, Joined: %s)", e.FullName(), e.ID, e.Salary, e.IsActive, e.JoinedAt.Format("2006-01-02"))
+}
+
+func (e *Employee) Equal(other *Employee) bool {
+	return e.ID == other.ID
+}
+
 func NewEmployee(firstName, lastName string, salary float64, isActive bool, joinedAt time.Time) *Employee {
-	return &Employee {
-		ID: uuid.New(),
-		LastName: lastName,
+	return &Employee{
+		ID:        uuid.New(),
+		LastName:  lastName,
 		FirstName: firstName,
-		Salary: salary,
-		IsActive: isActive,
-		JoinedAt: joinedAt,
+		Salary:    salary,
+		IsActive:  isActive,
+		JoinedAt:  joinedAt,
 	}
 }
 
 func main() {
-	employee := NewEmployee("Farooq", "Mahmud", 150000, true, time.Date(2025, 11, 17, 0, 0, 0, 0, time.UTC))
-	var p Person = employee
+	farooq1 := NewEmployee("Farooq", "Mahmud", 150000, true, time.Date(2025, 11, 17, 0, 0, 0, 0, time.UTC))
+	farooq2 := NewEmployee("Farooq", "Mahmud", 150000, true, time.Date(2025, 11, 17, 0, 0, 0, 0, time.UTC))
+	fmt.Println(farooq1 == farooq2) // false because pointers to two different objects in memory
 
-	fmt.Printf("%+v\n", p)
-	fmt.Println(p.FullName())
+	farooq2.ID = farooq1.ID
+	fmt.Println(farooq1 == farooq2)     // false because pointers to two different objects in memory
+	fmt.Println(farooq1.Equal(farooq2)) // true because same ID's.
 
-	// Explicit cast to Person interface
-	x := Person(employee);
-	fmt.Println(x.FullName())
+	fmt.Println(farooq1)
+	fmt.Println(farooq2)
 }
