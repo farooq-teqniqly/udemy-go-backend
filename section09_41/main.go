@@ -86,6 +86,28 @@ func (c Customer) String() string {
 	return fmt.Sprintf("%s (Email: %s, Billing address: %s, Shipping address: %s)", c.Name, c.Email, c.BillingAddress, c.ShippingAddress)
 }
 
+type Company struct {
+	Name string
+	CompanyAddress Address
+}
+
+func NewCompany(name string, address Address) (Company, error) {
+	name = strings.TrimSpace(name)
+	if name == "" {
+		return Company{}, errors.New("name not provided")
+	}
+
+	return Company{
+		Name: name,
+		CompanyAddress: address,
+	}, nil
+}
+
+func (c Company) String() string {
+	return fmt.Sprintf("%s (Address: %s)", c.Name, c.CompanyAddress)
+}
+
+
 func main() {
 	address, err := NewAddress("123 Main St", "Bothell", "WA", "98029")
 
@@ -102,4 +124,13 @@ func main() {
 	}
 
 	fmt.Println(c)
+
+	com, err := NewCompany("Foo Inc", address)
+
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	fmt.Println(com)
 }
