@@ -8,31 +8,31 @@ import (
 
 type Account struct {
 	AccountNumber string
-	balance float64
-	OwnerName string
+	balance       float64
+	OwnerName     string
 }
 
 func NewAccount(accountNumber, ownerName string, balance float64) (*Account, error) {
 	trimmedAccountNumber := strings.TrimSpace(accountNumber)
 
-	if (trimmedAccountNumber == "") {
+	if trimmedAccountNumber == "" {
 		return nil, errors.New("account number not specified")
 	}
 
 	trimmedOwnerName := strings.TrimSpace(ownerName)
 
-	if (trimmedOwnerName == "") {
+	if trimmedOwnerName == "" {
 		return nil, errors.New("owner name not specified")
 	}
 
-	if (balance < 0) {
+	if balance < 0 {
 		return nil, errors.New("opening balance cannot be negative")
 	}
 
 	return &Account{
 		AccountNumber: trimmedAccountNumber,
-		OwnerName: trimmedOwnerName,
-		balance: balance,
+		OwnerName:     trimmedOwnerName,
+		balance:       balance,
 	}, nil
 }
 
@@ -85,7 +85,7 @@ func NewSavingsAccount(accountNumber, ownerName string, balance float64, rate fl
 	}
 
 	return &SavingsAccount{
-		Account: *a,
+		Account:      *a,
 		InterestRate: rate,
 	}, nil
 }
@@ -104,7 +104,6 @@ func (sa *SavingsAccount) AddInterest() error {
 
 	return nil
 }
-
 
 func main() {
 	sa, err := NewSavingsAccount("12345", "Farooq", 20000.00, 0.025)

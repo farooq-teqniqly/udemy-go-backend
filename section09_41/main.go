@@ -87,7 +87,7 @@ func (c Customer) String() string {
 }
 
 type Company struct {
-	Name string
+	Name           string
 	CompanyAddress Address
 }
 
@@ -98,7 +98,7 @@ func NewCompany(name string, address Address) (Company, error) {
 	}
 
 	return Company{
-		Name: name,
+		Name:           name,
 		CompanyAddress: address,
 	}, nil
 }
@@ -106,7 +106,6 @@ func NewCompany(name string, address Address) (Company, error) {
 func (c Company) String() string {
 	return fmt.Sprintf("%s (Address: %s)", c.Name, c.CompanyAddress)
 }
-
 
 func main() {
 	address, err := NewAddress("123 Main St", "Bothell", "WA", "98029")

@@ -12,10 +12,10 @@ var ErrNumTooLarge = errors.New("number to large")
 
 // richer custom error
 type AppError struct {
-	Op string
-	Code int
+	Op      string
+	Code    int
 	Message string
-	Time time.Time
+	Time    time.Time
 }
 
 func (err AppError) Error() string {
@@ -24,10 +24,10 @@ func (err AppError) Error() string {
 
 func NewAppError(op string, code int, message string, t time.Time) *AppError {
 	return &AppError{
-		Op: op,
-		Code: code,
+		Op:      op,
+		Code:    code,
 		Message: message,
-		Time: t,
+		Time:    t,
 	}
 }
 
@@ -36,16 +36,16 @@ func DoSomething() error {
 }
 
 func divide(a, b int) (int, error) {
-	if (b == 0) {
+	if b == 0 {
 		return 0, ErrDivideByZero
 	}
 
-	if (a > 1000 || b > 1000) {
+	if a > 1000 || b > 1000 {
 		return 0, ErrNumTooLarge
 	}
 
 	return a / b, nil
-} 
+}
 
 func main() {
 	// res, err := divide(1001, 1)
