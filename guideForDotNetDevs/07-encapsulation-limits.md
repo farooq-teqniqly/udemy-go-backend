@@ -1,4 +1,4 @@
-# 15 - Where Go encapsulation is not airtight
+# 07 - Where Go encapsulation is not airtight
 
 **C#:** a `private` field or `private` constructor is enforced by the compiler against everything outside the class, including derived classes.
 

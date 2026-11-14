@@ -1,4 +1,4 @@
-# 09 - Equality and `GetHashCode`
+# 11 - Equality and `GetHashCode`
 
 **C#:** every type inherits `object.Equals()`/`GetHashCode()`, both overridable. `record` types get
 compiler-generated structural versions. `IEquatable<T>` lets a type opt into typed equality used by
