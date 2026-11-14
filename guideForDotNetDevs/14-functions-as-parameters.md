@@ -1,4 +1,4 @@
-# 12 - Functions as parameters (`Func<>`, `Action<>`, delegates)
+# 14 - Functions as parameters (`Func<>`, `Action<>`, delegates)
 
 **C#:** you pass behavior with `Func<T, TResult>`, `Action<T>` or a custom `delegate`, usually as a lambda
 (`a => a.Balance > 400`) or a method group (`acct.Deposit`). Delegates can be multicast (`+=`) and compared.
@@ -71,8 +71,8 @@ withdraw(other, 1000)
 Go lets you attach methods to a named function type, which is how `net/http` turns a plain function into a
 handler (`http.HandlerFunc` is documented as an adapter). Standard library APIs that need one small piece
 of behavior take a function, for example `slices.SortFunc`. A rule of thumb (judgment, not a quoted rule):
-use a function parameter for one behavior, and an interface (doc 07) when the callee needs several related
-methods or you want to name the concept in a domain model. Generics (doc 10) let one helper work for any
+use a function parameter for one behavior, and an interface (doc 08) when the callee needs several related
+methods or you want to name the concept in a domain model. Generics (doc 12) let one helper work for any
 element type:
 
 ```go

@@ -1,4 +1,4 @@
-# 10 - Generics and type constraints
+# 12 - Generics and type constraints
 
 **C#:** generics since 1.0, constraints via `where T : struct`, `where T : IComparable<T>`,
 `where T : SomeBaseClass`, `where T : new()` -- each constrains by a single type, interface, or
@@ -46,7 +46,7 @@ An interface containing type terms (not just method signatures) is **non-basic**
 > of other, non-interface types.
 
 So `var n Number` does not compile -- `Number` can only appear as `[T Number]`. This is the same
-rule covered in [07 - Implicit interfaces](07-implicit-interfaces.md#embedding-a-concrete-type) for
+rule covered in [09 - Interface values and embedding](09-interface-values-and-embedding.md#embedding-a-concrete-type) for
 embedding a concrete struct type in an interface; a union of type terms is the other way to end up
 with a non-basic, constraint-only interface.
 
@@ -77,7 +77,7 @@ MyInt` is illegal if `MyInt`'s underlying type is `int` -- the sets overlap).
 A predeclared interface, added with generics in Go 1.18: "denotes the set of all types which can
 be compared using `==` or `!=`. It may only be used as (or embedded in) a type constraint." This is
 what backs `maphash.Comparable` and map-key type parameters -- see
-[09 - Equality and `GetHashCode`](09-equality-and-hashcode.md).
+[11 - Equality and `GetHashCode`](11-equality-and-hashcode.md).
 
 ## `cmp.Ordered`
 

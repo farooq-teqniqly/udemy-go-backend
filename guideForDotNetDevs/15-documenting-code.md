@@ -1,4 +1,4 @@
-# 13 - Documenting code (`///` XML comments vs. Go doc comments)
+# 15 - Documenting code (`///` XML comments vs. Go doc comments)
 
 **C#:** you write `///` comments with XML tags (`<summary>`, `<param>`, `<returns>`). The compiler can
 produce an XML documentation file from them ("The compiler finds all comment fields with XML tags in the
@@ -67,7 +67,7 @@ pkg.go.dev. Observed in Chrome with the `bankAccount` code:
   package comment and the source file list. No types or methods appeared.
 
 So API docs only render in HTML once the code lives in an importable package, which fits the package split
-in doc 11. Why the viewer hides a command's API is **Unverified**: the behavior was reproduced, but no
+in doc 13. Why the viewer hides a command's API is **Unverified**: the behavior was reproduced, but no
 documentation was found that explains it.
 
 ## Package, field, and example comments

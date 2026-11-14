@@ -1,8 +1,8 @@
-# 07 - Implicit interfaces (how Go knows `Employee` is a `Person`)
+# 08 - Implicit interfaces (how Go knows `Employee` is a `Person`)
 
 **C#:** a type opts in by name: `class Employee : IPerson`. The compiler checks the members once, at that declaration.
 
-**Go:** no declaration; the compiler checks, where a value is converted to the interface type, whether its type has the interface's methods. Expands the row in [01 - Go is not object-oriented](01-go-is-not-oop.md). What an interface value holds, embedding and conversions continue in [14 - Interface values and embedding](14-interface-values-and-embedding.md).
+**Go:** no declaration; the compiler checks, where a value is converted to the interface type, whether its type has the interface's methods. Expands the row in [01 - Go is not object-oriented](01-go-is-not-oop.md). What an interface value holds, embedding and conversions continue in [09 - Interface values and embedding](09-interface-values-and-embedding.md).
 
 ## Does Go search the methods in the current package?
 

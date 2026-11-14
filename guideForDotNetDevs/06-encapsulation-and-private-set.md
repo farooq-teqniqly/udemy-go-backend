@@ -113,7 +113,7 @@ var v employee.Employee; v.salary = 5
 ## Where it is NOT airtight
 
 The zero value, value copies, same-package access, reflection, `encoding/json` and embedding all reach around
-it. They are in [15 - Where Go encapsulation is not airtight](15-encapsulation-limits.md).
+it. They are in [07 - Where Go encapsulation is not airtight](07-encapsulation-limits.md).
 
 ## Applying it to `section08_36`
 
@@ -137,7 +137,7 @@ Fact-checked on 2026-11-11 on Go 1.27.3 (windows/amd64): quotes are summarising-
 behavior and compiler message comes from a run in a scratch module with a separate `employee` package.
 
 **Verified:** identifier export rule (spec); `GetX` and setter naming (Effective Go, Google decisions);
-the five compiler errors; the behaviors in doc 15; the C# side
+the five compiler errors; the behaviors in doc 07; the C# side
 (`private set` modifiable after construction only inside the class, `init` only during initialisation,
 `required`, `readonly` fields assignable only in declaration/constructor, positional records init-only).
 

@@ -1,8 +1,8 @@
-# 14 - Interface values and embedding (what an interface holds, what converts to what)
+# 09 - Interface values and embedding (what an interface holds, what converts to what)
 
 **C#:** `IPerson p = employee;` stores a reference to the object. Interfaces can inherit from other interfaces (`IWorker : IPerson`).
 
-**Go:** an interface value holds a (dynamic type, value) pair, and interfaces can embed other interfaces. Continues [07 - Implicit interfaces](07-implicit-interfaces.md); `Person` and `Employee` are the types from there.
+**Go:** an interface value holds a (dynamic type, value) pair, and interfaces can embed other interfaces. Continues [08 - Implicit interfaces](08-implicit-interfaces.md); `Person` and `Employee` are the types from there.
 
 ## What an interface variable holds
 
