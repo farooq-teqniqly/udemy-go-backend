@@ -19,6 +19,7 @@ equivalent (or the lack of one), and cites the source. Examples use the `Employe
 | [09 - Equality and `GetHashCode`](09-equality-and-hashcode.md) | `Equals`/`GetHashCode` overrides, `IEquatable<T>`, `record` | `==` is fixed/structural, not overridable; no hash override; custom equality is a plain `Equal` method by convention. |
 | [10 - Generics and type constraints](10-generics-and-type-constraints.md) | `where T : struct`, `where T : IComparable<T>` | Constraints are interfaces; can be a union of type terms (`int \| float32 \| float64`), constraint-only once non-basic. |
 | [11 - DDD in Go primer](11-ddd-in-go-primer.md) | entities, value objects, aggregates, domain exceptions, repositories | Package is the boundary; `New` returns `(T, error)`; errors as domain language; embedding is composition, used sparingly. |
+| [12 - Functions as parameters](12-functions-as-parameters.md) | `Func<>`, `Action<>`, delegates, lambdas | Function types are first-class; literals are closures; method values replace method groups; funcs compare only to `nil`. |
 
 ## Conventions
 
