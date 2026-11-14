@@ -7,21 +7,21 @@ import (
 )
 
 const (
-	divisionOperation = "division"
+	divisionOperation        = "division"
 	divideByZeroErrorMessage = "cannot divide by zero"
 )
 
 type MathError struct {
 	Operation string
-	InputX int
-	InputY int
-	Message string
+	InputX    int
+	InputY    int
+	Message   string
 }
 
 func (e MathError) Error() string {
 	var inputs []string
 
-	if (e.Operation == divisionOperation) {
+	if e.Operation == divisionOperation {
 		inputs = append(inputs, fmt.Sprintf("x=%d", e.InputX))
 		inputs = append(inputs, fmt.Sprintf("x=%d", e.InputY))
 	}
@@ -30,7 +30,7 @@ func (e MathError) Error() string {
 
 }
 
-func sum (numbers ...int) int {
+func sum(numbers ...int) int {
 	defer fmt.Println("sum finished")
 
 	total := 0
@@ -43,16 +43,16 @@ func sum (numbers ...int) int {
 }
 
 func divide(x, y int) (int, error) {
-	if (y != 0) {
+	if y != 0 {
 		return x / y, nil
 	}
 
 	return 0, &MathError{
-			Operation: divisionOperation,
-			InputX: x,
-			InputY: y,
-			Message: divideByZeroErrorMessage,
-		}
+		Operation: divisionOperation,
+		InputX:    x,
+		InputY:    y,
+		Message:   divideByZeroErrorMessage,
+	}
 }
 
 func main() {

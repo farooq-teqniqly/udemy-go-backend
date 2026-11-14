@@ -7,12 +7,12 @@ import (
 )
 
 type Employee struct {
-	ID uuid.UUID
+	ID        uuid.UUID
 	FirstName string
-	LastName string
-	Salary float64
-	IsActive bool
-	JoinedAt time.Time
+	LastName  string
+	Salary    float64
+	IsActive  bool
+	JoinedAt  time.Time
 }
 
 func (e *Employee) FullName() string {
@@ -24,13 +24,13 @@ func (e *Employee) Deactivate() {
 }
 
 func NewEmployee(firstName, lastName string, salary float64, isActive bool, joinedAt time.Time) *Employee {
-	return &Employee {
-		ID: uuid.New(),
-		LastName: lastName,
+	return &Employee{
+		ID:        uuid.New(),
+		LastName:  lastName,
 		FirstName: firstName,
-		Salary: salary,
-		IsActive: isActive,
-		JoinedAt: joinedAt,
+		Salary:    salary,
+		IsActive:  isActive,
+		JoinedAt:  joinedAt,
 	}
 }
 

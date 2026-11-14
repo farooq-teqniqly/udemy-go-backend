@@ -19,12 +19,12 @@ func sum(numbers ...int) int {
 
 // returning an error
 func divide(a, b int) (int, error) {
-	if (b == 0) {
+	if b == 0 {
 		return 0, errors.New("divide by zero")
 	}
 
 	return a / b, nil
-} 
+}
 
 // named return values
 func splitName(fullName string) (firstName, lastName string) {
@@ -33,8 +33,6 @@ func splitName(fullName string) (firstName, lastName string) {
 	lastName = parts[1]
 	return
 }
-
-
 
 func main() {
 	// res := sum(1, 2, 3, 4, 5)
