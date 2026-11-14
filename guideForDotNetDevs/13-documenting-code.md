@@ -33,8 +33,8 @@ allows a leading article ("a", "an", "the").
 func (a *Account) Deposit(amount float64) error {
 ```
 
-Describe what the code **does**, including the failure cases, since there is no `<exception>` or
-`<returns>` tag to carry them. Google best practices: "Not every parameter must be enumerated" and
+Describe what the code **does**, including failure cases, since no `<exception>` or `<returns>` tag
+carries them. Google best practices: "Not every parameter must be enumerated" and
 document "the error-prone or non-obvious fields and parameters by saying why they are interesting".
 
 ## What the tools show
@@ -49,22 +49,20 @@ func (a *Account) Deposit(amount float64) error
 ```
 
 `go doc -all .` on `bankAccount` listed the exported fields of `Account` and replaced the unexported
-`balance` with `// Has unexported fields.`, so the docs show only the public surface. It did not list
-`Deposit` and `Balance` again under `SavingsAccount`, so say in the type comment that they are promoted
-(doc 01).
+`balance` with `// Has unexported fields.`. It did not list `Deposit` and `Balance` again under
+`SavingsAccount`, so say in the type comment that they are promoted (doc 01).
 
 ## Viewing the docs as HTML
 
 `go help doc` on Go 1.27.3 lists `go doc -http`: "Serve HTML documentation over HTTP for the current
 package." Run it from the package directory. It serves on a random local port, and the page looks like
-pkg.go.dev (its title was "... - Go Packages"). Observed in Chrome with the `bankAccount` code:
+pkg.go.dev. Observed in Chrome with the `bankAccount` code:
 
 - **As a library package** (`package bankaccount`, same code and comments, no `main()`): the page showed the
   package comment under Overview, an Index, and every type, function and method with its comment. The
-  unexported `balance` field was replaced by `// contains filtered or unexported fields`, and the
-  `InterestRate` field comment showed inside the struct. `SavingsAccount` listed only its own members
-  (`NewSavingsAccount`, `AddInterest`, `String`), not the promoted `Deposit`, `Withdraw` and `Balance`. The
-  type comment is the only place a reader learns they exist.
+  unexported `balance` field was replaced by `// contains filtered or unexported fields`. `SavingsAccount`
+  listed only its own members (`NewSavingsAccount`, `AddInterest`, `String`), not the promoted `Deposit`,
+  `Withdraw` and `Balance`.
 - **As `package main`** (the real `bankAccount`): the page was labelled "command" and showed only the
   package comment and the source file list. No types or methods appeared.
 
@@ -77,7 +75,7 @@ documentation was found that explains it.
 - **Package comment:** "Every package should have a package comment introducing the package", its first
   sentence begins with `Package `, and in a multi-file package it should be in one file (Go Doc Comments).
 - **Struct fields:** "either the doc comment or per-field comments should explain the meaning of each
-  exported field". `InterestRate` has a one-line field comment saying it is a fraction.
+  exported field".
 - **Examples:** "Godoc examples are snippets of Go code that are displayed as package documentation and
   that are verified by running them as tests" (Go blog, Testable Examples). An `Example` function ending in
   `// Output:` is compared with its standard output when tests run (testing package).
@@ -86,8 +84,7 @@ documentation was found that explains it.
 
 There is no HTML or XML. "Go doc comments are written in a simple syntax that supports paragraphs,
 headings, links, lists, and preformatted code blocks ... Markdown aficionados can view the syntax as a
-simplified subset of Markdown." A heading is a line starting `# ` set off by blank lines. A code block is
-an indented span. `gofmt` rewrites doc comments to a canonical form. "Paragraphs starting with
+simplified subset of Markdown." `gofmt` rewrites doc comments to a canonical form. "Paragraphs starting with
 `Deprecated:` are treated as deprecation notices ... pkg.go.dev will hide their docs by default."
 
 ## Checking that comments exist
@@ -113,8 +110,7 @@ Fact-checked on 2026-11-13 on Go 1.27.3: the quotes were taken from the raw page
 not the fetch tool's summary), and the `go doc` output is real.
 
 **Verified:** everything quoted above, `go doc` behavior on `bankAccount`, `go vet` having no doc-comment
-check (from its analyzer list and a search of the page), the `go doc -http` flag text (`go help doc`), and
-the HTML rendering results above (observed once, on Go 1.27.3, in Chrome).
+check, the `go doc -http` flag text, and the HTML rendering results (observed once, in Chrome).
 
 **Unverified:**
 - Why `go doc -http` shows only an overview for a `package main` command.

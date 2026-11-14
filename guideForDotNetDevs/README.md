@@ -20,6 +20,8 @@ equivalent (or the lack of one), and cites the source. Examples use the `Employe
 | [10 - Generics and type constraints](10-generics-and-type-constraints.md) | `where T : struct`, `where T : IComparable<T>` | Constraints are interfaces; can be a union of type terms (`int \| float32 \| float64`), constraint-only once non-basic. |
 | [11 - DDD in Go primer](11-ddd-in-go-primer.md) | entities, value objects, aggregates, domain exceptions, repositories | Package is the boundary; `New` returns `(T, error)`; errors as domain language; embedding is composition, used sparingly. |
 | [12 - Functions as parameters](12-functions-as-parameters.md) | `Func<>`, `Action<>`, delegates, lambdas | Function types are first-class; literals are closures; method values replace method groups; funcs compare only to `nil`. |
+| [15 - Where encapsulation is not airtight](15-encapsulation-limits.md) | `private` enforced against everything outside the class | Unexported is per package; zero values, copies, reflection, `encoding/json` and embedding reach around it. |
+| [14 - Interface values and embedding](14-interface-values-and-embedding.md) | `IPerson p = employee;`, `IWorker : IPerson` | An interface value is a (type, value) pair; interfaces embed other interfaces; conversions go up implicitly, down by assertion. |
 | [13 - Documenting code](13-documenting-code.md) | `///` XML comments, `<summary>`, `<param>` | Plain `//` doc comments above declarations, full sentences starting with the name; read by `go doc` and pkg.go.dev. |
 
 ## Conventions
