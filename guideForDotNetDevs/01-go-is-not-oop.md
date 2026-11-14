@@ -58,7 +58,7 @@ Example from `bankAccount`: `type SavingsAccount struct { Account; InterestRate 
   Selectors: shallowest depth). `String()` in both types works this way.
 - **No `base(...)` call.** Call the embedded type's constructor and store the result: `NewSavingsAccount`
   calls `NewAccount` and sets `Account: *a` (a copy). Validation is reused but not enforced:
-  `SavingsAccount{}` still compiles and skips it (doc 06).
+  `SavingsAccount{}` still compiles and skips it (doc 15).
 
 See [11](11-ddd-in-go-primer.md) for when embedding fits a domain model.
 

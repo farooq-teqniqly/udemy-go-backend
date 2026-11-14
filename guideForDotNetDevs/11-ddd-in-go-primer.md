@@ -26,7 +26,7 @@ per bounded context.
 
 Exported means a capitalized first letter (Go spec, Exported identifiers), so invariants are protected
 only once the type lives in its own package. In `section09_41`'s `package main`, `Address{}` and
-`Customer{Email: "x"}` skip the constructor. See doc 06.
+`Customer{Email: "x"}` skip the constructor. See docs 06 and 15.
 
 ```go
 package customer
@@ -52,7 +52,7 @@ func (c *Customer) ID() ID { return c.id } // no Get prefix
 
 From another package, `z.id` fails with `z.id undefined (type customer.Customer has no field or method id)`
 and `customer.Customer{id: 1}` with `cannot refer to unexported field id in struct literal`. But
-`var z customer.Customer` always compiles, so a constructor cannot be *forced* (doc 06).
+`var z customer.Customer` always compiles, so a constructor cannot be *forced* (doc 15).
 
 ## 2. Value objects and entities
 
@@ -92,7 +92,7 @@ receiver, so there is no virtual dispatch.
 - **Fits:** `SavingsAccount` embeds `Account` (`bankAccount`): every `Account` method belongs on it.
   `NewSavingsAccount` calls `NewAccount` and stores `Account: *a` (no `base(...)` in Go). It is still not
   an `Account` (not assignable, doc 01), only `*SavingsAccount` gets `*Account`'s methods (doc 05), and
-  same-package code can read the unexported `balance` (doc 06).
+  same-package code can read the unexported `balance` (doc 15).
 - **Fits:** embedding an interface to decorate one method, as `sort.Reverse` does with `sort.Interface`.
 - **Poor fit:** plain has-a. `Company` has an `Address`: use a named field. Embedding promotes every
   exported member, and `Address.String()` is hidden only because `Company` declares its own (spec,
