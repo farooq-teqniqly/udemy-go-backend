@@ -28,6 +28,25 @@ receiver type and the return type.
   decisions words it "When in doubt, use a pointer receiver" (Receiver type).
 - **Method sets:** `T` has only value-receiver methods; `*T` has both. A pointer-receiver method means
   only `*T` satisfies an interface (Go spec, Method sets).
+- **Method sets with embedding:** for a struct `S` embedding `T`, "the method sets of `S` and `*S` both
+  include promoted methods with receiver `T`. The method set of `*S` also includes promoted methods with
+  receiver `*T`" (Go spec, Struct types). So with `SavingsAccount` embedding `Account` and `Deposit`
+  declared on `*Account`, only `*SavingsAccount` has `Deposit` in its method set. The spec does not say
+  outright that `S` alone lacks it; that is inferred.
+
+  ```
+  var _ Depositor = SavingsAccount{}
+  -> SavingsAccount does not implement Depositor (method Deposit has pointer receiver)
+  var _ Depositor = &s          // compiles
+  s.Deposit(10)                 // compiles: s is addressable, shorthand for (&s).Deposit(10)
+  ```
+
+  The last line is the spec's rule that for an addressable `x`, `x.m()` is shorthand for `(&x).m()`
+  (Calls).
+- **`fmt` and pointer-receiver `String()`:** with `String()` on `*Account`, observed on Go 1.27.3:
+  `fmt.Println(&s)` printed `acct 10.00`, `fmt.Println(s)` printed `{{10} 0}`. The value's method set has
+  no `String`, which is the likely reason `fmt` skips it. That `fmt` checks the method set this way was
+  not confirmed against the fmt docs.
 
 ## Heap vs. stack is not the deciding factor
 
@@ -100,3 +119,6 @@ Copying and Receiver type sections and "Pass values").
   statements and Zero value sections were only partly readable. The nil zero value of pointers is
   confirmed in Pointer types.
 - Heap behavior was observed on one compiler version only, not documented as a guarantee.
+- Added 2026-11-13: the method-set and `x.m()` quotes are from fetched spec pages (the fetch tool labelled
+  them verbatim); the compiler message and `fmt` output are real runs. Why `fmt` skips the value's
+  `String()` is unconfirmed (see above).

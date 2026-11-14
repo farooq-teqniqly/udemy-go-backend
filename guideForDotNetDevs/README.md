@@ -26,5 +26,6 @@ equivalent (or the lack of one), and cites the source. Examples use the `Employe
   Google Go Style Guide, pkg.go.dev, Go issues).
 - Claims that could not be confirmed from a source are marked **Unverified**.
 - Check the Go spec first for language-behavior claims.
-- Last fact-checked on 2026-11-13 against Go 1.27.3 (doc 11; docs 01-10 on 2026-11-11): sources were
+- Last fact-checked on 2026-11-13 against Go 1.27.3 (doc 11 and the 2026-11-13 additions to docs 01, 05
+  and 06; the rest on 2026-11-11): sources were
   fetched and the code examples were compiled or run. Remaining gaps are marked **Unverified** in each doc.

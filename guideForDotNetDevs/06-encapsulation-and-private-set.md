@@ -146,6 +146,13 @@ All of these were run (`cmd/ext`, `cmd/wipe` in the scratch module):
    `{"FirstName":"C","LastName":"D"}`: `id`, `salary`, `isActive`, `joinedAt` are dropped. Unmarshalling
    cannot fill them either. If a value must be serialised, export it or write `MarshalJSON`.
 
+7. **Embedding adds no `protected`.** A C# derived class cannot touch a private base field. In Go the
+   rule is the package. With `SavingsAccount` embedding `Account` in `package account`, a method on
+   `SavingsAccount` can read `sa.balance` directly (it compiled and ran). From another package, Go 1.27.3
+   reports `sa.balance undefined (type account.SavingsAccount has no field or method balance, but does have
+   method Balance)`, while `sa.Balance()` works. So moving `SavingsAccount` to its own package would force it
+   through the getter.
+
 ## When not to bother with getters and setters
 
 - Effective Go: "There's nothing wrong with providing getters and setters yourself, and it's often
@@ -194,7 +201,8 @@ init-only).
 **Added 2026-11-13:** the "must be distinct" rule (spec, Method declarations; quote from the fetch tool's
 verbatim excerpt) and the Effective Go `owner`/`Owner` sentence were confirmed; the compiler output is
 from building `bankAccount/main.go` on Go 1.27.3. The corrected `balance`/`Balance()` snippet was
-compiled and run in a scratch module (printed `5`).
+compiled and run in a scratch module (printed `5`). Item 7 under "Where it is NOT airtight" (embedding and
+same-package access) was also compiled in a scratch module with a separate `account` package.
 
 **Unverified:**
 - How a *promoted* field or method (from an embedded type) interacts with the distinct-names rule. The

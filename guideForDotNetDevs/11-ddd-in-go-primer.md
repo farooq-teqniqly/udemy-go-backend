@@ -72,6 +72,8 @@ Google decisions: `widget.NewWidget` becomes `widget.New`).
 Go returns an `error` instead of throwing. Match on identity, not message text: sentinels with
 `errors.Is`, typed errors with `errors.As`, several failures via `errors.Join` (Go 1.20+)
 (pkg.go.dev/errors). Use `fmt.Errorf` when formatting or wrapping with `%w`; otherwise `errors.New`.
+When wrapping, `%w` keeps the original reachable; `%v` only copies its text. Run: `errors.Is` was `false`
+for `%v` and `true` for `%w`.
 
 ## 5. Repositories and interfaces
 
@@ -87,6 +89,10 @@ receiver, so there is no virtual dispatch.
 - **Fits:** a base type shared by aggregates, as in `get-eventually/go-eventually`, whose README says
   to embed `aggregate.BaseRoot` ("you MUST embed"). That it records events was seen only in a page
   summary: **Unverified**.
+- **Fits:** `SavingsAccount` embeds `Account` (`bankAccount`): every `Account` method belongs on it.
+  `NewSavingsAccount` calls `NewAccount` and stores `Account: *a` (no `base(...)` in Go). It is still not
+  an `Account` (not assignable, doc 01), only `*SavingsAccount` gets `*Account`'s methods (doc 05), and
+  same-package code can read the unexported `balance` (doc 06).
 - **Fits:** embedding an interface to decorate one method, as `sort.Reverse` does with `sort.Interface`.
 - **Poor fit:** plain has-a. `Company` has an `Address`: use a named field. Embedding promotes every
   exported member, and `Address.String()` is hidden only because `Company` declares its own (spec,
