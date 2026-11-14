@@ -56,6 +56,33 @@ e.Deactivate()            // the only way to change it
   a bare `SetIsActive(bool)`; that is the equivalent of `ChangeAddress` in Microsoft's `private set`
   example. This is a design suggestion, not a quoted rule.
 
+## Why the field must be unexported for a same-named getter
+
+A C# property is one member (`Balance`). Go splits it into a field and a method, and the two cannot share
+a name. The spec: "If the base type is a struct type, the non-blank method and field names must be
+distinct" (Method declarations). So an exported field `Balance` plus a getter `Balance()` does not compile.
+Real output from Go 1.27.3 for `type Account struct { Balance float64 }` with `func (a *Account) Balance() float64`:
+
+```
+main.go:67:19: field and method with the same name Balance
+	main.go:11:2: other declaration of Balance
+main.go:48:2: invalid operation: a.Balance += amount (mismatched types func() float64 and float64)
+```
+
+The follow-on errors appear because `a.Balance` now resolves to the method (type `func() float64`), not the
+field. The fix is on the field, as in the `Employee` idiom above: unexported `balance`, exported `Balance()`.
+
+```go
+type Account struct{ balance float64 }
+
+func (a *Account) Balance() float64 { return a.balance }
+```
+
+This is exactly what Effective Go describes: "If you have a field called `owner` (lower case, unexported),
+the getter method should be called `Owner` (upper case, exported), not `GetOwner`" (Getters). Note the
+side effect: the exported field is gone, so only code in the package can set the balance, which is the
+`private set` behavior (see the limits under "Where it is NOT airtight").
+
 ## C# to Go table
 
 | C# | Go |
@@ -119,6 +146,13 @@ All of these were run (`cmd/ext`, `cmd/wipe` in the scratch module):
    `{"FirstName":"C","LastName":"D"}`: `id`, `salary`, `isActive`, `joinedAt` are dropped. Unmarshalling
    cannot fill them either. If a value must be serialised, export it or write `MarshalJSON`.
 
+7. **Embedding adds no `protected`.** A C# derived class cannot touch a private base field. In Go the
+   rule is the package. With `SavingsAccount` embedding `Account` in `package account`, a method on
+   `SavingsAccount` can read `sa.balance` directly (it compiled and ran). From another package, Go 1.27.3
+   reports `sa.balance undefined (type account.SavingsAccount has no field or method balance, but does have
+   method Balance)`, while `sa.Balance()` works. So moving `SavingsAccount` to its own package would force it
+   through the getter.
+
 ## When not to bother with getters and setters
 
 - Effective Go: "There's nothing wrong with providing getters and setters yourself, and it's often
@@ -139,6 +173,8 @@ names). If `Employee` stays in `package main`, lowercase fields still compile, b
 
 - Go spec, Exported identifiers; Struct types; Type identity: <https://go.dev/ref/spec#Exported_identifiers>
 - Go spec, Composite literals: <https://go.dev/ref/spec#Composite_literals>
+- Go spec, Method declarations (field and method names must be distinct); Struct types (field names unique):
+  <https://go.dev/ref/spec#Method_declarations>
 - Effective Go, Getters; Names; Package names: <https://go.dev/doc/effective_go#Getters>
 - Google Go Style Guide, decisions (Naming, Getters; Copying; Literal formatting):
   <https://google.github.io/styleguide/go/decisions.html>
@@ -162,7 +198,16 @@ run in a scratch module with a separate `employee` package.
 `required`, `readonly` fields assignable only in declaration/constructor, positional records are
 init-only).
 
+**Added 2026-11-13:** the "must be distinct" rule (spec, Method declarations; quote from the fetch tool's
+verbatim excerpt) and the Effective Go `owner`/`Owner` sentence were confirmed; the compiler output is
+from building `bankAccount/main.go` on Go 1.27.3. The corrected `balance`/`Balance()` snippet was
+compiled and run in a scratch module (printed `5`). Item 7 under "Where it is NOT airtight" (embedding and
+same-package access) was also compiled in a scratch module with a separate `account` package.
+
 **Unverified:**
+- How a *promoted* field or method (from an embedded type) interacts with the distinct-names rule. The
+  spec sentences cover the struct's own fields and the methods bound to it; the Selectors
+  shallowest-depth rule was not read for this addition.
 - The Go spec text for "unexported fields cannot be named in a literal or selector from another package"
   was not seen (the fetched excerpts had no such sentence). The behavior is confirmed by the compiler
   errors, not by spec wording. The Selectors and Assignment sections gave no rule on exportedness or

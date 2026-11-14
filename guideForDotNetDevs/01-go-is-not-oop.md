@@ -40,8 +40,32 @@ designing types so the zero value is usable without further initialization (`var
 initializing constructor is needed "sometimes" when the zero value isn't good enough, such as generating an
 ID. This is a design convention, not a guarantee for every struct.
 
+## Embedding is composition, not subclassing
+
+Example from `bankAccount`: `type SavingsAccount struct { Account; InterestRate float64 }`.
+
+- **Promotion:** `Account`'s methods are callable on a `SavingsAccount` (`sa.Deposit(10)`).
+- **Not a subtype.** `takesAccount(SavingsAccount{})` fails with `cannot use SavingsAccount{} (value of
+  struct type SavingsAccount) as Account value in argument to takesAccount`. The spec's Assignability
+  rules (identical types, identical underlying types with one side unnamed, implementing an interface,
+  and so on) do not mention embedding, and "A named type is always different from any other type" (Type
+  identity). The spec has no sentence saying "embedding does not count"; that is inferred from the list.
+  Accept an interface, or pass `sa.Account`.
+- **No virtual dispatch.** Effective Go (Embedding): promoted methods are invoked with "the inner type,
+  not the outer one" as the receiver. So `Account`'s own methods keep calling `Account`'s methods even if
+  `SavingsAccount` defines one with the same name. (Follows from the quote; not run.)
+- **Shadowing:** a method declared on `SavingsAccount` with the same name as a promoted one wins (spec,
+  Selectors: shallowest depth). `String()` in both types works this way.
+- **No `base(...)` call.** Call the embedded type's constructor and store the result: `NewSavingsAccount`
+  calls `NewAccount` and sets `Account: *a` (a copy). Validation is reused but not enforced:
+  `SavingsAccount{}` still compiles and skips it (doc 06).
+
+See [11](11-ddd-in-go-primer.md) for when embedding fits a domain model.
+
 ## Sources
 
+- Go spec, Assignability; Type identity; Selectors: <https://go.dev/ref/spec#Assignability>
+- Effective Go, Embedding: <https://go.dev/doc/effective_go#embedding>
 - Go FAQ, "Is Go an object-oriented language?": <https://go.dev/doc/faq#Is_Go_an_object-oriented_language>
   (no type hierarchy; embedding is analogous but not identical to subclassing; methods can be defined on any
   type, not only structs)
@@ -55,4 +79,6 @@ ID. This is a design convention, not a guarantee for every struct.
 - Effective Go, "Allocation with new" and "Constructors and composite literals":
   <https://go.dev/doc/effective_go>
 
-Fact-checked against these pages on 2026-11-11.
+Fact-checked against these pages on 2026-11-11. The embedding section was added 2026-11-13: the spec
+and Effective Go quotes came from fetched pages (the fetch tool labelled them verbatim), and the compiler
+message was real output from Go 1.27.3. The "no virtual dispatch" consequence was not run.
