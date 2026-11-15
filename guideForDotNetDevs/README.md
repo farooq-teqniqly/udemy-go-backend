@@ -23,6 +23,7 @@ equivalent (or the lack of one), and cites the source. Examples use the `Employe
 | [13 - DDD in Go primer](13-ddd-in-go-primer.md) | entities, value objects, aggregates, domain exceptions, repositories | Package is the boundary; `New` returns `(T, error)`; errors as domain language; embedding is composition, used sparingly. |
 | [14 - Functions as parameters](14-functions-as-parameters.md) | `Func<>`, `Action<>`, delegates, lambdas | Function types are first-class; literals are closures; method values replace method groups; funcs compare only to `nil`. |
 | [15 - Documenting code](15-documenting-code.md) | `///` XML comments, `<summary>`, `<param>` | Plain `//` doc comments above declarations, full sentences starting with the name; read by `go doc` and pkg.go.dev. |
+| [16 - Running benchmarks](16-running-benchmarks.md) | BenchmarkDotNet, `[Benchmark]`, `[Params]`, `[MemoryDiagnoser]` | Built in: `BenchmarkXxx(b *testing.B)` with `b.Loop()`, `go test -bench`, `b.Run` for sizes, `benchstat` to compare runs. |
 
 ## Conventions
 
@@ -30,6 +31,6 @@ equivalent (or the lack of one), and cites the source. Examples use the `Employe
   Google Go Style Guide, pkg.go.dev, Go issues).
 - Claims that could not be confirmed from a source are marked **Unverified**.
 - Check the Go spec first for language-behavior claims.
-- Last fact-checked against Go 1.27.3 on 2026-11-13 for docs 13 to 15 and the 2026-11-13 additions to docs
+- Last fact-checked against Go 1.27.3 on 2026-11-15 for doc 16, and on 2026-11-13 for docs 13 to 15 and the 2026-11-13 additions to docs
   01, 05 and 06; the rest on 2026-11-11. Docs 07 and 09 were split out of 06 and 08 (formerly 15 and 14)
   without re-checking their content. Sources were fetched and the code examples were compiled or run. Remaining gaps are marked **Unverified** in each doc.
