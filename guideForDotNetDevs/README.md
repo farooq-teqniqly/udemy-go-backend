@@ -25,6 +25,7 @@ equivalent (or the lack of one), and cites the source. Examples use the `Employe
 | [15 - Documenting code](15-documenting-code.md) | `///` XML comments, `<summary>`, `<param>` | Plain `//` doc comments above declarations, full sentences starting with the name; read by `go doc` and pkg.go.dev. |
 | [16 - Running benchmarks](16-running-benchmarks.md) | BenchmarkDotNet, `[Benchmark]`, `[Params]`, `[MemoryDiagnoser]` | Built in: `BenchmarkXxx(b *testing.B)` with `b.Loop()`, `go test -bench`, `b.Run` for sizes, `benchstat` to compare runs. |
 | [17 - Stepping through code in VS Code](17-debugging-in-vscode.md) | Visual Studio debugger, F9/F10/F11, Locals/Watch/Call Stack | Same keys, but the debugger is Delve driven by the Go extension; Call Stack lists goroutines; `launch.json` `program` points at the package. |
+| [18 - Concurrency: goroutines vs. Tasks/Threads](18-concurrency-comparison.md) | `Thread`, `Task`/`Task.Run`, `async`/`await`, `Task.WaitAll` | M:N-scheduled goroutines via `go`; no return value or handle, so `sync.WaitGroup`/channels fill the gap; `main` returning does not wait for goroutines. |
 
 ## Conventions
 
@@ -32,7 +33,8 @@ equivalent (or the lack of one), and cites the source. Examples use the `Employe
   Google Go Style Guide, pkg.go.dev, Go issues).
 - Claims that could not be confirmed from a source are marked **Unverified**.
 - Check the Go spec first for language-behavior claims.
-- Last fact-checked against Go 1.27.3 on 2026-11-15 for docs 16 and 17 (doc 17 from fetched pages only; its
-  `launch.json` was not run), and on 2026-11-13 for docs 13 to 15 and the 2026-11-13 additions to docs
+- Last fact-checked against Go 1.27.3 on 2026-11-25 for doc 18 (Go spec, `sync` package doc, Go FAQ, Go Tour,
+  and MS Learn pages fetched directly), on 2026-11-15 for docs 16 and 17 (doc 17 from fetched pages only;
+  its `launch.json` was not run), and on 2026-11-13 for docs 13 to 15 and the 2026-11-13 additions to docs
   01, 05 and 06; the rest on 2026-11-11. Docs 07 and 09 were split out of 06 and 08 (formerly 15 and 14)
   without re-checking their content. Sources were fetched and the code examples were compiled or run. Remaining gaps are marked **Unverified** in each doc.
